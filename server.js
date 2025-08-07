@@ -31,7 +31,7 @@ app.use(helmet({
   },
 }));
 
-app.use(compression());
+(compression());
 app.use(morgan('combined'));
 
 // CORS configurado para produção
@@ -48,6 +48,22 @@ app.use(cors({
 
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+// Rota raiz
+app.get('/', (req, res) => {
+  res.json({
+    message: 'ChipForce API está funcionando!',
+    version: '1.0.0',
+    status: 'online',
+    timestamp: new Date().toISOString(),
+    endpoints: {
+      health: '/health',
+      chips: '/api/chips',
+      connect: '/api/chips/connect'
+    }
+  });
+});
+
 
 // Armazenar sessões ativas em memória
 const activeSessions = new Map();
